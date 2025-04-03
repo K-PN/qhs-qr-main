@@ -230,7 +230,7 @@ export default function ProductListScreen() {
                           <Td>
                             <QRCode
                               id="qrcode"
-                              value={`https://qhs-qr.onrender.com/qr/${product._id}`}
+                              value={`https://doluongquochung.com/qr/${product._id}`}
                               size={120}
                               level={'H'}
                               includeMargin={true}
