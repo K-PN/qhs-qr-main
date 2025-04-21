@@ -4,6 +4,7 @@ import axios from 'axios';
 import { getError } from '../utils';
 import Container from 'react-bootstrap/Container';
 import { Helmet } from 'react-helmet-async';
+import ProductEditScreen3 from './ProductEditScreen3';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -42,14 +43,20 @@ export default function ProductEditScreen2() {
     loading: true,
     error: '',
   });
-
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [type, setType] = useState('');
   const [serial, setSerial] = useState('');
-  const [model, setModel] = useState('');
+  const [serialCell, setSerialCell] = useState('');
+  const [serialCell2, setSerialCell2] = useState('');
+  const [serialCell3, setSerialCell3] = useState('');
+  const [iDay, setiDay] = useState('');
+  const [nameCus, setNameCus] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
   const [time, setTime] = useState(0);
   const [sDay, setsDay] = useState('');
   const [eDay, seteDay] = useState('');
+  const [enable, setEnable] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,12 +64,19 @@ export default function ProductEditScreen2() {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(`/api/products/${productId}`);
         setName(data.name);
-        setPhone(data.phone);
+        setType(data.type);
         setSerial(data.serial);
-        setModel(data.model);
+        setSerialCell(data.serialCell);
+        setSerialCell2(data.serialCell2);
+        setSerialCell3(data.serialCell3);
+        setiDay(data.iDay);
+        setNameCus(data.namCus);
+        setAddress(data.address);
+        setPhone(data.phone);
         setTime(data.time);
-        setsDay(data.sDay);
-        seteDay(data.eDay);
+        setsDay(curDate);
+        seteDay(expDate);
+        setEnable(data.enable);
         dispatch({ type: 'FETCH_SUCCESS' });
       } catch (err) {
         dispatch({
@@ -74,153 +88,164 @@ export default function ProductEditScreen2() {
     fetchData();
   }, [productId]);
 
-  return (
-    <>
-      <Container className="small-container">
-        <div className="desktop-form">
-          <Helmet>
-            <title>Bảo Hành Quốc Hưng</title>
-          </Helmet>
-          <div className="done">
+  const child2 = <ProductEditScreen3 />;
+  if (enable === '2')
+    return (
+      <>
+        <Container className="small-container">
+          <div className="desktop-form">
+            <Helmet>
+              <title>Bảo Hành Quốc Hưng</title>
+            </Helmet>
+            <div className="done">
+              <div className="content">
+                <h3>THÔNG TIN SẢN PHẨM</h3>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Sản phẩm:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{type}</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Thời hạn bảo hành:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{time} tháng</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Ngày kích hoạt:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{sDay}</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Ngày hết hạn:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{eDay}</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Điện thoại kích hoạt:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{phone}</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Họ tên khách hàng:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{nameCus}</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Địa chỉ khách hàng:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{address}</p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-md-3">
+                    <span className="txt1">Serial:</span>
+                  </div>
+                  <div className="col-xs-6 col-md-3">
+                    <p>{serial}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mobile-form">
+            <Helmet>
+              <title>Bảo Hành Quốc Hưng</title>
+            </Helmet>
             <div className="content">
-              <h3>THÔNG TIN SẢN PHẨM</h3>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Tên Khách Hàng:</span>
+              <div className="title">
+                <img src="../images/shield.png" width={50} alt="shield" />
+                Thông tin bảo hành
+              </div>
+              <div className="info">
+                <div className="row">
+                  <span className="txt1">
+                    • Khách hàng:<p>{name}</p>
+                  </span>
                 </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{name}</p>
+                <div className="row">
+                  <span className="txt1">
+                    • Số điện thoại:<p>{phone}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Serial:<p>{serial}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Model:<p>{model}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Thời gian bảo hành:<p>{time} tháng</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Ngày kích hoạt:<p>{sDay}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Ngày hết hạn:<p>{eDay}</p>
+                  </span>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Số điện thoại:</span>
-                </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{phone}</p>
-                </div>
+            </div>
+            <h6></h6>
+            <div className="content">
+              <div className="title">
+                <img src="../images/repair.png" width={28} alt="repair" />
+                Sửa chữa cân điện tử 24h
               </div>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Serial:</span>
+              <div className="info">
+                <div className="row">
+                  <span className="txt2">
+                    • Đăk Lăk: <p>0869 03 1468</p>
+                  </span>
                 </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{serial}</p>
+                <div className="row">
+                  <span className="txt2">
+                    • Đăk Nông: <p>0868 571 468</p>
+                  </span>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Model:</span>
+                <div className="row">
+                  <span className="txt2">
+                    • Lâm Đồng: <p>0862 690 468</p>
+                  </span>
                 </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{model}</p>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Thời hạn bảo hành:</span>
-                </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{time} tháng</p>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Ngày kích hoạt:</span>
-                </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{sDay}</p>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-6 col-md-3">
-                  <span className="txt1">Ngày hết hạn:</span>
-                </div>
-                <div className="col-xs-6 col-md-3">
-                  <p>{eDay}</p>
+                <div className="row">
+                  <span className="txt2">
+                    • Gia Lai - Kon Tum: <p>0965 015 468</p>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="mobile-form">
-          <Helmet>
-            <title>Bảo Hành Quốc Hưng</title>
-          </Helmet>
-          <div className="content">
-            <div className="title">
-              <img src="../images/shield.png" width={50} alt="shield" />
-              Thông tin bảo hành
-            </div>
-            <div className="info">
-              <div className="row">
-                <span className="txt1">
-                  • Khách hàng:<p>{name}</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt1">
-                  • Số điện thoại:<p>{phone}</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt1">
-                  • Serial:<p>{serial}</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt1">
-                  • Model:<p>{model}</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt1">
-                  • Thời gian bảo hành:<p>{time} tháng</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt1">
-                  • Ngày kích hoạt:<p>{sDay}</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt1">
-                  • Ngày hết hạn:<p>{eDay}</p>
-                </span>
-              </div>
-            </div>
-          </div>
-          <h6></h6>
-          <div className="content">
-            <div className="title">
-              <img src="../images/repair.png" width={28} alt="repair" />
-              Sửa chữa cân điện tử 24h
-            </div>
-            <div className="info">
-              <div className="row">
-                <span className="txt2">
-                  • Đăk Lăk: <p>0869 03 1468</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt2">
-                  • Đăk Nông: <p>0868 571 468</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt2">
-                  • Lâm Đồng: <p>0862 690 468</p>
-                </span>
-              </div>
-              <div className="row">
-                <span className="txt2">
-                  • Gia Lai - Kon Tum: <p>0965 015 468</p>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </>
-  );
+        </Container>
+      </>
+    );
+  return child2;
 }

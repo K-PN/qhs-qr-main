@@ -18,10 +18,15 @@ productRouter.post(
     const newProduct = new Product({
       slug: 'qhs-' + Date.now(),
       name: '',
-      address: '',
-      phone: '',
+      type: '',
       serial: '',
-      model: '',
+      serialCell: '',
+      serialCell2: '',
+      serialCell3: '',
+      iDay: '',
+      nameCus: '',
+      phone: '',
+      address: '',
       time: 6,
       sDay: '',
       eDay: '',
@@ -40,10 +45,15 @@ productRouter.put(
     if (product) {
       product.slug = req.body.slug;
       product.name = req.body.name;
-      product.address = req.body.address;
-      product.phone = req.body.phone;
+      product.type = req.body.type;
       product.serial = req.body.serial;
-      product.model = req.body.model;
+      product.serialCell = req.body.serialCell;
+      product.serialCell2 = req.body.serialCell2;
+      product.serialCell3 = req.body.serialCell3;
+      product.iDay = req.body.iDay;
+      product.nameCus = req.body.nameCus;
+      product.phone = req.body.phone;
+      product.address = req.body.address;
       product.time = req.body.time;
       product.sDay = req.body.sDay;
       product.eDay = req.body.eDay;
