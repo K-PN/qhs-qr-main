@@ -77,7 +77,7 @@ export default function ProductEditScreen2() {
         setSerialCell2(data.serialCell2);
         setSerialCell3(data.serialCell3);
         setiDay(data.iDay);
-        setNameCus(data.namCus);
+        setNameCus(data.nameCus);
         setAddress(data.address);
         setPhone(data.phone);
         setTime(data.time);
@@ -157,7 +157,7 @@ export default function ProductEditScreen2() {
                 </div>
                 <div className="row">
                   <div className="col-xs-6 col-md-3">
-                    <span className="txt1">Địa chỉ khách hàng:</span>
+                    <span className="txt1">Địa chỉ:</span>
                   </div>
                   <div className="col-xs-6 col-md-3">
                     <p>{address}</p>
@@ -212,6 +212,11 @@ export default function ProductEditScreen2() {
                 <div className="row">
                   <span className="txt1">
                     • Họ tên khách hàng:<p>{nameCus}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Địa chỉ:<p>{address}</p>
                   </span>
                 </div>
                 <div className="row">
