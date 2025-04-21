@@ -35,6 +35,13 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
+const today = new Date();
+const curDate =
+  today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+
+const expDate =
+  today.getDate() + '-' + (today.getMonth() + 7) + '-' + today.getFullYear();
 export default function ProductEditScreen2() {
   const params = useParams(); // /product/:id
   const { id: productId } = params;
@@ -179,27 +186,12 @@ export default function ProductEditScreen2() {
               <div className="info">
                 <div className="row">
                   <span className="txt1">
-                    • Khách hàng:<p>{name}</p>
+                    • Sản phẩm:<p>{type}</p>
                   </span>
                 </div>
                 <div className="row">
                   <span className="txt1">
-                    • Số điện thoại:<p>{phone}</p>
-                  </span>
-                </div>
-                <div className="row">
-                  <span className="txt1">
-                    • Serial:<p>{serial}</p>
-                  </span>
-                </div>
-                <div className="row">
-                  <span className="txt1">
-                    • Model:<p>{model}</p>
-                  </span>
-                </div>
-                <div className="row">
-                  <span className="txt1">
-                    • Thời gian bảo hành:<p>{time} tháng</p>
+                    • Thời hạn bảo hành:<p>{time} tháng</p>
                   </span>
                 </div>
                 <div className="row">
@@ -210,6 +202,21 @@ export default function ProductEditScreen2() {
                 <div className="row">
                   <span className="txt1">
                     • Ngày hết hạn:<p>{eDay}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Điện thoại kích hoạt:<p>{phone}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Họ tên khách hàng:<p>{nameCus}</p>
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="txt1">
+                    • Serial:<p>{serial}</p>
                   </span>
                 </div>
               </div>
