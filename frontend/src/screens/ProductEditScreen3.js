@@ -58,9 +58,7 @@ export default function ProductEditScreen() {
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [serial, setSerial] = useState('');
-  const [serialCell, setSerialCell] = useState('');
-  const [serialCell2, setSerialCell2] = useState('');
-  const [serialCell3, setSerialCell3] = useState('');
+  const [loadCell, setLoadCell] = useState('');
   const [iDay, setiDay] = useState('');
   const [nameCus, setNameCus] = useState('');
   const [address, setAddress] = useState('');
@@ -79,9 +77,7 @@ export default function ProductEditScreen() {
         setName(data.name);
         setType(data.type);
         setSerial(data.serial);
-        setSerialCell(data.serialCell);
-        setSerialCell2(data.serialCell2);
-        setSerialCell3(data.serialCell3);
+        setLoadCell(data.loadCell);
         setiDay(data.iDay);
         setNameCus(data.namCus);
         setAddress(data.address);
@@ -110,9 +106,7 @@ export default function ProductEditScreen() {
         name,
         type,
         serial,
-        serialCell,
-        serialCell2,
-        serialCell3,
+        loadCell,
         iDay,
         nameCus,
         address,

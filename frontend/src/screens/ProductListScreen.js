@@ -71,7 +71,9 @@ export default function ProductListScreen() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [numProductsToCreate, setNumProductsToCreate] = useState(1);
-  const [selectedProducts, setSelectedProducts] = useState([]); // Trạng thái lưu sản phẩm được chọn
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [startIndex, setStartIndex] = useState(''); // Số thứ tự bắt đầu
+  const [endIndex, setEndIndex] = useState(''); // Số thứ tự kết thúc
   const navigate = useNavigate();
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -156,7 +158,27 @@ export default function ProductListScreen() {
     }
   };
 
-  // Chọn hoặc bỏ chọn một sản phẩm
+  const deleteSelectedHandler = async () => {
+    if (window.confirm('Bạn có chắc chắn xóa các sản phẩm đã chọn?')) {
+      try {
+        dispatch({ type: 'DELETE_REQUEST' });
+        await Promise.all(
+          selectedProducts.map((productId) =>
+            axios.delete(`/api/products/${productId}`, {
+              headers: { Authorization: `Bearer ${userInfo.token}` },
+            })
+          )
+        );
+        toast.success('Xóa các sản phẩm thành công');
+        setSelectedProducts([]);
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        toast.error(getError(err));
+        dispatch({ type: 'DELETE_FAIL' });
+      }
+    }
+  };
+
   const toggleSelectProduct = (productId) => {
     setSelectedProducts((prevSelected) =>
       prevSelected.includes(productId)
@@ -165,7 +187,6 @@ export default function ProductListScreen() {
     );
   };
 
-  // Chọn hoặc bỏ chọn tất cả sản phẩm
   const toggleSelectAll = () => {
     if (selectedProducts.length === products.length) {
       setSelectedProducts([]);
@@ -174,7 +195,24 @@ export default function ProductListScreen() {
     }
   };
 
-  // Tải xuống QR-Code
+  // Hàm chọn sản phẩm theo khoảng số thứ tự
+  const selectByIndexRange = () => {
+    const start = parseInt(startIndex, 10);
+    const end = parseInt(endIndex, 10);
+    if (
+      isNaN(start) ||
+      isNaN(end) ||
+      start < 1 ||
+      end > products.length ||
+      start > end
+    ) {
+      toast.error('Khoảng số thứ tự không hợp lệ');
+      return;
+    }
+    const selected = products.slice(start - 1, end).map((p) => p._id);
+    setSelectedProducts(selected);
+  };
+
   const downloadQRCodes = async () => {
     const zip = new JSZip();
     const qrCodesToDownload =
@@ -214,7 +252,39 @@ export default function ProductListScreen() {
             <Button type="button" onClick={downloadQRCodes} className="ml-2">
               Tải xuống QR-Code
             </Button>
+            <Button
+              type="button"
+              onClick={deleteSelectedHandler}
+              disabled={selectedProducts.length === 0}
+              className="ml-2">
+              Xóa đã chọn
+            </Button>
           </div>
+        </Col>
+      </Row>
+
+      {/* Thêm input để chọn khoảng số thứ tự */}
+      <Row className="mt-2">
+        <Col>
+          Chọn theo khoảng số thứ tự:
+          <input
+            type="number"
+            placeholder="Từ"
+            value={startIndex}
+            onChange={(e) => setStartIndex(e.target.value)}
+            style={{ width: '60px', marginLeft: '5px' }}
+          />
+          -
+          <input
+            type="number"
+            placeholder="Đến"
+            value={endIndex}
+            onChange={(e) => setEndIndex(e.target.value)}
+            style={{ width: '60px', marginLeft: '5px' }}
+          />
+          <Button onClick={selectByIndexRange} className="ml-2">
+            Chọn
+          </Button>
         </Col>
       </Row>
 
@@ -231,8 +301,9 @@ export default function ProductListScreen() {
             type="text"
             placeholder="Nhập SĐT..."
             onChange={(event) => setSearchTerm(event.target.value)}
+            className="mt-2"
           />
-          <Table className="table-bordered">
+          <Table className="table-bordered mt-2">
             <Thead>
               <Tr>
                 <Th>
@@ -242,6 +313,8 @@ export default function ProductListScreen() {
                     onChange={toggleSelectAll}
                   />
                 </Th>
+                {/* Thêm cột Số thứ tự */}
+                <Th>STT</Th>
                 <Th>Nhân viên lắp cân</Th>
                 <Th>Hãng/Loại cân</Th>
                 <Th>Serial</Th>
@@ -263,7 +336,7 @@ export default function ProductListScreen() {
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase())
                 )
-                .map((product) => (
+                .map((product, index) => (
                   <Tbody key={product._id}>
                     <Tr>
                       <Td>
@@ -273,10 +346,12 @@ export default function ProductListScreen() {
                           onChange={() => toggleSelectProduct(product._id)}
                         />
                       </Td>
+                      {/* Hiển thị số thứ tự */}
+                      <Td>{index + 1}</Td>
                       <Td>{product.name}</Td>
                       <Td>{product.type}</Td>
-                      <Td>{product.iDay}</Td>
                       <Td>{product.serial}</Td>
+                      <Td>{product.iDay}</Td>
                       <Td>{product.nameCus}</Td>
                       <Td>{product.phone}</Td>
                       <Td>{product.time} tháng</Td>

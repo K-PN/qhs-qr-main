@@ -20,9 +20,7 @@ productRouter.post(
       name: '',
       type: '',
       serial: '',
-      serialCell: '',
-      serialCell2: '',
-      serialCell3: '',
+      loadCell: '',
       iDay: '',
       nameCus: '',
       phone: '',
@@ -47,9 +45,7 @@ productRouter.put(
       product.name = req.body.name;
       product.type = req.body.type;
       product.serial = req.body.serial;
-      product.serialCell = req.body.serialCell;
-      product.serialCell2 = req.body.serialCell2;
-      product.serialCell3 = req.body.serialCell3;
+      product.loadCell = req.body.loadCell;
       product.iDay = req.body.iDay;
       product.nameCus = req.body.nameCus;
       product.phone = req.body.phone;
